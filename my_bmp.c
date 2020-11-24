@@ -1,17 +1,22 @@
+///////////////////////////////////////////
+// my_bmp.c - Write BMP file
+//
+// Author: Mike Field <hamster@snap.net.nz>
+///////////////////////////////////////////
 #include <stdio.h>
 #include "my_bmp.h"
 
-int calc_data_size(int width, int height) {
+static int calc_data_size(int width, int height) {
    return ((width+3)/4)*4*width;
 }
 
-int write_16bit(FILE *f, unsigned int val) {
+static int write_16bit(FILE *f, unsigned int val) {
    if(putc(val>>0,  f) == EOF) return 0;
    if(putc(val>>8,  f) == EOF) return 0;
    return 1;
 }
 
-int write_32bit(FILE *f, unsigned int val) {
+static int write_32bit(FILE *f, unsigned int val) {
    if(putc(val>>0,  f) == EOF) return 0;
    if(putc(val>>8,  f) == EOF) return 0;
    if(putc(val>>16, f) == EOF) return 0;
@@ -19,7 +24,7 @@ int write_32bit(FILE *f, unsigned int val) {
    return 1;
 }
 
-int write_bitmap_header(FILE *f, int width, int height) {
+static int write_bitmap_header(FILE *f, int width, int height) {
    unsigned header_size;
    unsigned total_size;
    unsigned int data_size = calc_data_size(width,height);
@@ -43,7 +48,7 @@ int write_bitmap_header(FILE *f, int width, int height) {
    return 1;
 }
 
-int write_dib_header(FILE *f, int width, int height) {
+static int write_dib_header(FILE *f, int width, int height) {
    unsigned int data_size = calc_data_size(width,height);
    unsigned int pixels_per_meter = 2834; 
    // Header Size
@@ -82,7 +87,7 @@ int write_dib_header(FILE *f, int width, int height) {
    return 1;
 }
 
-int write_pixel_data(FILE *f, unsigned char *data, int width, int height) {
+static int write_pixel_data(FILE *f, unsigned char *data, int width, int height) {
    for(int i=0; i < height; i++) {
       for(int j = 0; j < width; j++) {
          if(putc(data[2],f)==EOF) return 0; 

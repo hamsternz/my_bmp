@@ -1,3 +1,8 @@
+///////////////////////////////////////////
+// main.c - generate a colourbars BMP file
+//
+// Author: Mike Field <hamster@snap.net.nz>
+///////////////////////////////////////////
 #include <stdio.h>
 #include <memory.h>
 #include "my_bmp.h"
@@ -48,12 +53,12 @@ void colourbars(void) {
            break;
      }
    }
-#if 1
+
    for(i = 1; i < HEIGHT; i++) {
       memcpy(data[i],data[0], WIDTH*3);
    }
-#endif
 }
+
 int main(int argc, char *argv[]) {
    colourbars();
    if(mybmp_write(data[0][0], WIDTH, HEIGHT, "output.bmp")) {
