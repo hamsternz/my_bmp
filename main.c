@@ -60,10 +60,21 @@ void colourbars(void) {
 }
 
 int main(int argc, char *argv[]) {
+   // Write a file out
    colourbars();
    if(mybmp_write(data[0][0], WIDTH, HEIGHT, "output.bmp")) {
       printf("File write OK\n");
    } else {
       printf("File write ERROR\n");
+   }
+
+   // Now read a file in
+   unsigned char *read_data;
+   int width;
+   int height; 
+   if(mybmp_read(&read_data, &width, &height, "input.bmp")) {
+      printf("File read OK input.bmp - %i x %i\n", width, height);
+   } else {
+      printf("File read ERROR input.bmp\n");
    }
 }
